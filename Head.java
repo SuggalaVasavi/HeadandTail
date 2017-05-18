@@ -39,8 +39,6 @@ output.append( "Error reading file: " + e );
 theList.trimToSize();
 
 int end = taillSize;
-int start = theList.size() - theList.size();
-if( start < 0 ) { start = 0; taillSize = end; }
 output.append( "========== Tail [" + fileeName + "]\n" );
 output.append( "========== Showing first [" + taillSize + "] lines\n" );
 
