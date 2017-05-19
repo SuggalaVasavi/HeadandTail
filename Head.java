@@ -1,29 +1,18 @@
-
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 public class Head
 {
-private String fileeName = "";
-private int taillSize = 25; // default tailsize
-
-ArrayList theList = new ArrayList();
-public Head( String fileName ) { fileeName = fileName; }
-public Head( String fileName, int tailSize )
-{
-fileeName = fileName; taillSize = tailSize;
-}
-public StringBuffer run()
+public static StringBuffer head(int headSize,String fileName)
 {
 StringBuffer output = new StringBuffer("");
 String thisLine;
-
+ArrayList theList = new ArrayList();
 try
 {
-FileReader fr = new FileReader( fileeName );
-BufferedReader myInput = new BufferedReader( fr );
+FileReader filereader = new FileReader( fileName );
+BufferedReader myInput = new BufferedReader( filereader );
 
 while( ( thisLine = myInput.readLine() ) != null )
 {
@@ -38,11 +27,12 @@ output.append( "Error reading file: " + e );
 
 theList.trimToSize();
 
-int end = taillSize;
-output.append( "========== Tail [" + fileeName + "]\n" );
-output.append( "========== Showing first [" + taillSize + "] lines\n" );
+int end = headSize;
 
-for( int i = start; i < end; i++ )
+output.append( "========== Head [" + fileName + "]\n" );
+output.append( "========== Showing first [" + headSize + "] lines\n" );
+
+for( int i = 0; i < end; i++ )
 {
 output.append( (String)theList.get(i) + "\n" );
 }
@@ -55,16 +45,16 @@ public static void main( String args[] )
 {
 int argsLength = args.length;
 
-if( argsLength == 0 ) System.out.println("empty");
+if( argsLength == 0 ) System.out.println("exit");
 if( argsLength == 1 )
 {
-Head head = new Head( args[0] );
-System.out.println( head.run().toString() );
+	System.out.println("please enter n for number of lines to execute and file name");
+
 }
 if( argsLength == 2 )
 {
-Head head = new Head( args[0], new Integer( args[1] ).intValue() );
-System.out.println( head.run().toString() );
+	System.out.println(Head.head(new Integer( args[0] ).intValue(),args[1] ) );
+
 }
 }
 }
