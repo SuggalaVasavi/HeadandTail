@@ -3,69 +3,47 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-public class Tail
-{
-private String fileeName = "";
-private int taillSize = 25; // default tailsize
 
-ArrayList theList = new ArrayList();
-public Tail( String fileName ) { fileeName = fileName; }
-public Tail( String fileName, int tailSize )
-{
-fileeName = fileName; taillSize = tailSize;
-}
-public StringBuffer run()
-{
-StringBuffer output = new StringBuffer("");
+public class Tail{
+public static StringBuffer tail(int tailSize,String fileName){
 String thisLine;
-
-try
+StringBuffer output = new StringBuffer("");
+ArrayList List = new ArrayList();
+try{
+FileReader filereader = new FileReader( fileName );
+BufferedReader br = new BufferedReader( filereader );
+while( ( thisLine = br.readLine() ) != null )
 {
-FileReader fr = new FileReader( fileeName );
-BufferedReader myInput = new BufferedReader( fr );
-
-while( ( thisLine = myInput.readLine() ) != null )
-{
-theList.add( thisLine );
+List.add( thisLine );
 }
-
+br.close();
 } // end try
 catch( IOException e )
 {
 output.append( "Error reading file: " + e );
 }
-
-theList.trimToSize();
-
-int end = theList.size();
-int start = theList.size() - taillSize;
-if( start < 0 ) { start = 0; taillSize = end; }
-output.append( "========== Tail [" + fileeName + "]\n" );
-output.append( "========== Showing last [" + taillSize + "] lines\n" );
-
-for( int i = start; i < end; i++ )
+int end= List.size();
+int start = List.size() - tailSize;
+if(start<0)
 {
-output.append( (String)theList.get(i) + "\n" );
+start =0;
+tailSize= end;
 }
-output.append( "========== END\n" );
 
+for(int i=start; i <end; i++)
+{
+output.append( List.get(i) + "\n" );
+}
 return output;
 }
-
-public static void main( String args[] )
-{
+public static void main(String args[]){
 int argsLength = args.length;
 
-if( argsLength == 0 ) System.out.println("empty");
-if( argsLength == 1 )
-{
-Tail tail = new Tail( args[0] );
-System.out.println( tail.run().toString() );
-}
+if( argsLength == 0 ) System.out.println("exit");
+if( argsLength == 1 ) System.out.println("wrong entry(ex:number filename)");;
 if( argsLength == 2 )
 {
-Tail tail = new Tail( args[0], new Integer( args[1] ).intValue() );
-System.out.println( tail.run().toString() );
+System.out.println(Tail.tail(Integer.parseInt( args[0] ),args[1] ) );
 }
 }
 }
